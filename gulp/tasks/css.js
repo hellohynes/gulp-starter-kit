@@ -21,7 +21,7 @@ function onError(err) {
 
 
 gulp.task('lib-css', function() {
-    browsersync.notify('Compiling Dialtone CSS...');
+    browsersync.notify('Compiling library CSS...');
 
     return gulp.src(config.scsslib)
         .pipe(sass().on('error', sass.logError))
@@ -38,7 +38,7 @@ gulp.task('lib-css', function() {
 });
 
 gulp.task('docs-css', function() {
-    browsersync.notify('Compiling Dialtone Documentation CSS...');
+    browsersync.notify('Compiling website CSS...');
 
     return gulp.src(config.scssdocs)
         .pipe(sass().on('error', sass.logError))
