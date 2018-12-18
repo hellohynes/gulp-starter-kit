@@ -11,6 +11,7 @@ var browsersync = require('browser-sync');
 var sorting = require('postcss-sorting');
 var sass = require('gulp-sass');
 var config = require('../config').css;
+var runSequence = require('run-sequence');
 
 function onError(err) {
     gutil.beep();
@@ -20,7 +21,7 @@ function onError(err) {
 
 
 gulp.task('lib-css', function() {
-    browsersync.notify('Compiling source CSS...');
+    browsersync.notify('Compiling Dialtone CSS...');
 
     return gulp.src(config.scsslib)
         .pipe(sass().on('error', sass.logError))
@@ -37,7 +38,7 @@ gulp.task('lib-css', function() {
 });
 
 gulp.task('docs-css', function() {
-    browsersync.notify('Compiling website CSS...');
+    browsersync.notify('Compiling Dialtone Documentation CSS...');
 
     return gulp.src(config.scssdocs)
         .pipe(sass().on('error', sass.logError))
@@ -50,7 +51,11 @@ gulp.task('docs-css', function() {
         .pipe(gulp.dest(config.cssdocs));
 });
 
-gulp.task('css', ['lib-css', 'docs-css'], function() {
-    browsersync.notify('Compiling CSS...');
-    browsersync.reload();
+gulp.task('css', function(callback) {
+    browsersync.notify('Refreshing...');
+    runSequence(
+        ['lib-css', 'docs-css'],
+        ['jekyll-rebuild'],
+        callback
+    );
 });
